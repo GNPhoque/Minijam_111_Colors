@@ -1,12 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Coin : MonoBehaviour, IInteractible
 {
+	public UnityEvent OnCollected;
+
 	public void Use()
 	{
-		GameManager.instance.CollectCoin();
+		OnCollected?.Invoke();
+		//GameManager.instance.CollectCoin();
 		Destroy(gameObject);
 	}
 }

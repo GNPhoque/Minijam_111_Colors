@@ -6,16 +6,15 @@ using UnityEngine;
 
 public class InputReplaySystem : MonoBehaviour
 {
-	public List<InputRecord> inputRecords;
+	List<InputRecord> inputRecords = new List<InputRecord>();
 
 	float currentTime;
 	bool started;
 
 	public event Action<InputRecord> OnNewInputToPlay;
 
-	private void Start()
+	private void Awake()
 	{
-		inputRecords = new List<InputRecord>();
 		InputRecordSystem.OnAnyInputRecorded += InputRecordSystem_OnAnyInputRecorded;
 	}
 
@@ -43,5 +42,15 @@ public class InputReplaySystem : MonoBehaviour
 	public void StartPlayback()
 	{
 		started = true;
+	}
+
+	public void AddInputRecord(InputRecord inputRecord)
+	{
+		inputRecords.Add(inputRecord);
+	}
+
+	public void FixDelay(float delay)
+	{
+		currentTime += delay;
 	}
 }

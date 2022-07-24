@@ -55,6 +55,11 @@ public class ColorSystem : MonoBehaviour
 		ColorChanger_OnColorChanged(currentColor);
 	}
 
+	private void OnDestroy()
+	{
+		OnColorChanged -= ColorChanger_OnColorChanged;
+	}
+
 	private void ColorChanger_OnColorChanged(Color color)
 	{
 		if (changeColor) ChangeColor(color);

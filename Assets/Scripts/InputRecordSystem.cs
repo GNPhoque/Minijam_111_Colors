@@ -6,7 +6,6 @@ using UnityEngine;
 public class InputRecordSystem : MonoBehaviour
 {
 	public static event Action<InputRecord> OnAnyInputRecorded;
-	public static event Action<bool> OnColorChanged;
 
 	PlayerInput inputs;
 	float currentTime;
@@ -38,6 +37,11 @@ public class InputRecordSystem : MonoBehaviour
 	{
 		if (!started) return;
 		currentTime += Time.deltaTime;
+	}
+
+	private void OnDestroy()
+	{
+		inputs.Player.Disable();
 	}
 
 	private void Move_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)

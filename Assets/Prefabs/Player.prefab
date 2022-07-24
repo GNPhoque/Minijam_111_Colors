@@ -118,9 +118,8 @@ GameObject:
   - component: {fileID: 9216640628423157754}
   - component: {fileID: 215608065}
   - component: {fileID: 215608066}
-  - component: {fileID: 215608067}
-  - component: {fileID: 6165064416360912128}
   - component: {fileID: 1445338003}
+  - component: {fileID: 215608067}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -142,7 +141,7 @@ Transform:
   m_Children:
   - {fileID: 9216640627886543078}
   m_Father: {fileID: 0}
-  m_RootOrder: -1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!50 &9216640628423157755
 Rigidbody2D:
@@ -160,7 +159,7 @@ Rigidbody2D:
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 2
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 6ca11426064fe254d855c48becac8e12, type: 2}
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
@@ -215,6 +214,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de958f94cb0ae794996df02869963d44, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1445338003
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9216640628423157753}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68ea84f21788b8a4ba4d974745c8778f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 9216640627886543072}
 --- !u!114 &215608067
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -237,32 +249,3 @@ MonoBehaviour:
   rb: {fileID: 9216640628423157755}
   replaySystem: {fileID: 215608066}
   spriteRenderer: {fileID: 9216640627886543073}
---- !u!114 &6165064416360912128
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9216640628423157753}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c9eab33aef695bb42ab7c65e755b1736, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  spriteRenderer: {fileID: 9216640627886543073}
-  changeColor: 0
-  disableCollider: 0
-  baseColor: {r: 0, g: 0, b: 0, a: 0}
-  col: {fileID: 0}
---- !u!114 &1445338003
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9216640628423157753}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 68ea84f21788b8a4ba4d974745c8778f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

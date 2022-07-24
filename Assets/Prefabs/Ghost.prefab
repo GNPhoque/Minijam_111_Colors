@@ -118,14 +118,13 @@ GameObject:
   - component: {fileID: 2860001359091023060}
   - component: {fileID: 25642885}
   - component: {fileID: 1592732753425352582}
-  - component: {fileID: 4630917999493482154}
   m_Layer: 0
   m_Name: Ghost
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2860001359091023061
 Transform:
   m_ObjectHideFlags: 0
@@ -157,8 +156,8 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 1
-  m_Material: {fileID: 0}
+  m_GravityScale: 2
+  m_Material: {fileID: 6200000, guid: 6ca11426064fe254d855c48becac8e12, type: 2}
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
@@ -213,26 +212,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18b5becefe175cd40b985e7651886fe9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxSpeed: 6
+  maxSpeed: 5
   moveSpeed: 8
-  jumpSpeed: 10
+  jumpSpeed: 15
   smoothInputSpeed: 0.1
   groundLayer:
     serializedVersion: 2
     m_Bits: 8
   rb: {fileID: 2860001359091023050}
   replaySystem: {fileID: 25642885}
-  spriteRenderer: {fileID: 2860001358726004882}
---- !u!114 &4630917999493482154
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2860001359091023051}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c9eab33aef695bb42ab7c65e755b1736, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
   spriteRenderer: {fileID: 2860001358726004882}

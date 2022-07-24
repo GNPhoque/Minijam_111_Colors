@@ -4,10 +4,7 @@ using UnityEngine;
 
 public class PlayerCollisions : MonoBehaviour
 {
-	private void OnCollisionEnter2D(Collision2D collision)
-	{
-		
-	}
+	[SerializeField] Animator animator;
 
 	private void OnTriggerEnter2D(Collider2D collision)
 	{

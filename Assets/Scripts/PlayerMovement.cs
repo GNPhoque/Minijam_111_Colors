@@ -22,6 +22,7 @@ public class PlayerMovement : MonoBehaviour
 	Vector2 smoothInputVelocity;
 	Vector2 currentMovementVector;
 	Vector2 lastDirection;
+	InputRecord lastMovementInput;
 
 	private void Start()
 	{
@@ -62,6 +63,7 @@ public class PlayerMovement : MonoBehaviour
 		{
 			case InputRecordType.Movement:
 				movementInput = input.movement;
+				lastMovementInput = input;
 				break;
 			case InputRecordType.Jump:
 				if (input.jump)
@@ -80,5 +82,10 @@ public class PlayerMovement : MonoBehaviour
 	bool IsGrounded()
 	{
 		return Physics2D.OverlapCircle(rb.position, .2f, groundLayer);
+	}
+
+	public InputRecord GetLastMovementInput()
+	{
+		return lastMovementInput;
 	}
 }

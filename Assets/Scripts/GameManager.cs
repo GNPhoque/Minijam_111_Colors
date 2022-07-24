@@ -1,56 +1,63 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-	public static GameManager instance;
-
 	[SerializeField] GameObject ghostPrefab;
-
 	[SerializeField] InputReplaySystem player;
-	[SerializeField] InputReplaySystem[] ghosts;
 
-	bool started;
-	EndLevelDoor endLevelDoor;
-
-	public int coins;
-
+	#region SINGLETON
+	public static GameManager instance;
 	private void Awake()
 	{
 		instance = this;
-	}
+	} 
+	#endregion
 
 	private void Start()
 	{
-		InputRecordSystem.OnAnyInputRecorded += InputRecordSystem_OnAnyInputRecorded;
 		player.StartPlayback();
-		coins = FindObjectsOfType<Coin>().Length;
-		endLevelDoor = FindObjectOfType<EndLevelDoor>();
 	}
 
-	private void InputRecordSystem_OnAnyInputRecorded(InputRecord obj)
+	#region GHOST
+	public void SummonGhost()
 	{
-		if (started) return;
-		started = true;
-		StartCoroutine(StartGhosts());
+		InputReplaySystem ghost = SpawnGhost();
+		InputRecord playerLastMovementInput = player.GetComponent<PlayerMovement>().GetLastMovementInput();
+		ghost.FixDelay(playerLastMovementInput.time);
+		ghost.AddInputRecord(playerLastMovementInput);
+		StartCoroutine(StartGhost(ghost));
 	}
 
-	IEnumerator StartGhosts()
+	InputReplaySystem SpawnGhost()
 	{
-		foreach (var ghost in ghosts)
-		{
-			yield return new WaitForSeconds(.5f);
-			ghost.StartPlayback();
-		}
+		Vector3 spawnPos = player.transform.position;
+		InputReplaySystem ghost = Instantiate(ghostPrefab, spawnPos, Quaternion.identity).GetComponent<InputReplaySystem>();
+		return ghost;
 	}
 
-	public void CollectCoin()
+	IEnumerator StartGhost(InputReplaySystem ghost)
 	{
-		coins--;
-		if (coins == 0)
-		{
-			endLevelDoor.Use();
-		}
+		yield return new WaitForSeconds(.3f);
+		ghost.gameObject.SetActive(true);
+		yield return new WaitForSeconds(.2f);
+		ghost.StartPlayback();
 	}
+	#endregion
+
+	#region SCENE
+	public void ReloadScene()
+	{
+		SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+	}
+
+	public void LoadNextScene()
+	{
+		SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+	} 
+	#endregion
 }
