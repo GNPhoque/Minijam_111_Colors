@@ -65,10 +65,12 @@ public class InputRecordSystem : MonoBehaviour
 	private void ColorLeft_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
 	{
 		ColorSystem.InputRecordSystem_OnColorChanged(false);
+		ColorWheel.instance.ChangeWheel(false);
 	}
 
 	private void ColorRight_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
 	{
 		ColorSystem.InputRecordSystem_OnColorChanged(true);
+		ColorWheel.instance.ChangeWheel(true);
 	}
 }

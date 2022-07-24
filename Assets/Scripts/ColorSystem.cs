@@ -19,7 +19,7 @@ public class ColorSystem : MonoBehaviour
 		}
 	}
 
-	static event Action<Color> OnColorChanged;
+	public static event Action<Color> OnColorChanged;
 
 	public static void InputRecordSystem_OnColorChanged(bool positive)
 	{
