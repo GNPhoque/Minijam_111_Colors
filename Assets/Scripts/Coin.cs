@@ -10,6 +10,7 @@ public class Coin : MonoBehaviour, IInteractible
 	public void Use()
 	{
 		OnCollected?.Invoke();
+		SoundManager.instance.PlayCoin();
 		//GameManager.instance.CollectCoin();
 		Destroy(gameObject);
 	}

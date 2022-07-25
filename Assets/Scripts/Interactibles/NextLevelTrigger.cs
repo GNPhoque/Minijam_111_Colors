@@ -6,6 +6,6 @@ public class NextLevelTrigger : MonoBehaviour, IInteractible
 {
 	public void Use()
 	{
-		GameManager.instance.LoadNextScene();
+		GameManager.LoadNextScene();
 	}
 }
