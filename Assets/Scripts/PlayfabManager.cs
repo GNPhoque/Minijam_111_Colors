@@ -13,12 +13,42 @@ public class PlayfabManager : MonoBehaviour
 	[SerializeField] TMPro.TMP_InputField nameField;
 	[SerializeField] TMPro.TextMeshProUGUI resultTime;
 
+	[SerializeField] GameObject debug;
+	[SerializeField] TMPro.TextMeshProUGUI debugText;
+
 	[SerializeField] GameObject leaderboardRowPrefab;
 	[SerializeField] Transform leaderboardRowParent;
 
 	[SerializeField] GameObject bufferring;
 
 	int playerTime;
+	string displayName = "";
+
+	public static string DeviceUniqueIdentifier
+	{
+		get
+		{
+			var deviceId = "";
+
+
+#if UNITY_EDITOR
+			deviceId = SystemInfo.deviceUniqueIdentifier + "-editor";
+#elif UNITY_ANDROID
+                AndroidJavaClass up = new AndroidJavaClass ("com.unity3d.player.UnityPlayer");
+                AndroidJavaObject currentActivity = up.GetStatic<AndroidJavaObject> ("currentActivity");
+                AndroidJavaObject contentResolver = currentActivity.Call<AndroidJavaObject> ("getContentResolver");
+                AndroidJavaClass secure = new AndroidJavaClass ("android.provider.Settings$Secure");
+                deviceId = secure.CallStatic<string> ("getString", contentResolver, "android_id");
+#elif UNITY_WEBGL
+                if (!PlayerPrefs.HasKey("UniqueIdentifier"))
+                    PlayerPrefs.SetString("UniqueIdentifier", Guid.NewGuid().ToString());
+                deviceId = PlayerPrefs.GetString("UniqueIdentifier");
+#else
+                deviceId = SystemInfo.deviceUniqueIdentifier;
+#endif
+			return deviceId;
+		}
+	}
 
 	private void Start()
 	{
@@ -32,7 +62,7 @@ public class PlayfabManager : MonoBehaviour
 	{
 		var request = new LoginWithCustomIDRequest
 		{
-			CustomId = SystemInfo.deviceUniqueIdentifier,
+			CustomId = DeviceUniqueIdentifier,
 			CreateAccount = true,
 			InfoRequestParameters = new GetPlayerCombinedInfoRequestParams
 			{
@@ -55,6 +85,7 @@ public class PlayfabManager : MonoBehaviour
 				}
 			}
 		};
+		Debug.Log($"Sending {displayName} : {request.Statistics[0].Value}");
 		PlayFabClientAPI.UpdatePlayerStatistics(request, OnLeaderboardUpdate, OnError);
 	}
 
@@ -88,8 +119,8 @@ public class PlayfabManager : MonoBehaviour
 
 
 	private void OnLoginSuccess(LoginResult obj)
-	{
-		Debug.Log("Successful login/acount creation!");
+	{		
+		Debug.Log($"Successful {(obj.NewlyCreated?"login" : "acount creation!")}");
 
 		//From main menu button
 		if (playerTime == 0)
@@ -98,12 +129,12 @@ public class PlayfabManager : MonoBehaviour
 			return;
 		}
 
-		string name = null;
+		displayName = "";
 		//Get player name
 		if (obj.InfoResultPayload.PlayerProfile != null)
-			name = obj.InfoResultPayload.PlayerProfile.DisplayName;
+			displayName = obj.InfoResultPayload.PlayerProfile.DisplayName;
 
-		if (name == null)
+		if (string.IsNullOrEmpty(displayName))
 		{
 			namePanel.SetActive(true);
 		}
@@ -117,6 +148,8 @@ public class PlayfabManager : MonoBehaviour
 	{
 		Debug.LogError("Database connection error");
 		Debug.LogError(error.GenerateErrorReport());
+		debug.SetActive(true);
+		debugText.text = error.GenerateErrorReport();
 	}
 
 	private void OnLeaderboardUpdate(UpdatePlayerStatisticsResult obj)
@@ -146,7 +179,8 @@ public class PlayfabManager : MonoBehaviour
 
 	private void OnDisplayNameUpdate(UpdateUserTitleDisplayNameResult obj)
 	{
-		Debug.Log("Updated user display name");
+		displayName = obj.DisplayName;
+		Debug.Log("Updated user display name to "+ displayName);
 		namePanel.SetActive(false);
 		SendLeaderboard();
 	}
